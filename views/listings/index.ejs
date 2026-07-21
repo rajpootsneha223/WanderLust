@@ -1,0 +1,175 @@
+<% layout('/layouts/boilerplate') -%>
+<div class="filters-header">
+    <div class="filters-wrapper">
+      <button class="scroll-btn left-btn" id="scrollLeft"><i class="fa-solid fa-chevron-left"></i></button>
+      
+
+    <div id="filters">
+
+      <a href="/listings?category=Trending">
+        <div class="filter">
+      <div><i class="fa-solid fa-fire"></i></div>
+      <p>Trending</p>
+      </div>
+      </a>
+
+      <a href="/listings?category=Rooms">
+      <div class="filter">
+     <div><i class="fa-solid fa-bed"></i></div>
+      <p>Rooms</p>
+      </div>
+      </a>
+
+      <a href="/listings?category=Iconic Cities">
+      <div class="filter">
+     <div><i class="fa-solid fa-mountain-city"></i></div>
+      <p>Iconic Cities</p>
+      </div>
+      </a>
+
+      <a href="/listings?category=Mountains">
+      <div class="filter">
+     <div><i class="fa-solid fa-mountain-sun"></i></i></div>
+      <p>Mountains</p>
+      </div>
+      </a>
+
+      <a href="/listings?category=Castles">
+      <div class="filter">
+      <div><i class="fa-brands fa-fort-awesome"></i></div>
+      <p>Castles</p>
+      </div>
+      </a>
+
+      <a href="/listings?category=Amazing Pools">
+      <div class="filter">
+     <div><i class="fa-solid fa-person-swimming"></i></div>
+      <p>Amazing Pools</p>
+      </div>
+      </a>
+
+      <a href="/listings?category=Beach">
+      <div class="filter">
+      <div><i class="fa-solid fa-umbrella-beach"></i></div>
+      <p>Beach</p>
+      </div>
+      </a>
+      
+     <a href="/listings?category=Lakefront">
+      <div class="filter">
+     <div><i class="fa-solid fa-water"></i></div>
+      <p>Lakefront</p>
+      </div>
+       </a>
+      
+        <a href="/listings?category=Farms">
+      <div class="filter">
+      <div><i class="fa-solid fa-tractor"></i></div>
+      <p>Farms</p>
+      </div>
+      </a>
+
+      <a href="/listings?category=Hillstation">
+      <div class="filter">
+      <div><i class="fa-solid fa-person-hiking"></i></div>
+      <p>Hillstation</p>
+      </div>
+      </a>
+
+       <a href="/listings?category=Camping">
+       <div class="filter">
+      <div><i class="fa-solid fa-tent"></i></div>
+      <p>Camping</p>
+      </div>
+      </a>
+
+      <a href="/listings?category=Snow Places">
+       <div class="filter">
+      <div><i class="fa-solid fa-person-snowboarding"></i></div>
+      <p>Snow Places</p>
+      </div>
+      </a>
+
+       <a href="/listings?category=Arctic">
+      <div class="filter">
+      <div><i class="fa-regular fa-snowflake"></i></div>
+      <p>Arctic</p>
+      </div>
+      </a>
+
+    </div>
+
+    <button class="scroll-btn right-btn" id="scrollRight"><i class="fa-solid fa-chevron-right"></i></button>
+   </div>
+
+    <div class="tax-toggle">
+        <div class="form-check-reverse form-switch">
+  <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+  <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+</div>
+
+      </div>
+
+      </div>
+     
+    
+     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+        <% for(let listing of allListings){ %>
+            <a href="/listings/<%= listing._id %>" class="listing-link">
+    <div class="card col listing-card">
+
+
+      <div class="card listing-card position-relative">
+  
+ 
+  <button class="like-btn position-absolute top-0 end-0 m-3" 
+          data-id="<%= listing._id %>" 
+          style="background: none; border: none; padding: 0; cursor: pointer; z-index: 2;">
+    
+    <% if(currUser && listing.likes.includes(currUser._id)) { %>
+      
+      <i class="fa-solid fa-heart heart-icon liked" style="color: #ff385c; font-size: 1.5rem; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5)); transition: transform 0.2s ease;"></i>
+    <% } else { %>
+     
+      <i class="fa-regular fa-heart heart-icon" style="color: white; font-size: 1.5rem; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.7)); transition: transform 0.2s ease;"></i>
+    <% } %>
+  </button>
+
+  <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+
+  <div class="card-img-overlay"></div>
+
+</div>
+
+<div class="card-body">
+ 
+   <div class="card-text">
+     <span class="text-muted text-uppercase fw-bold" style="font-size: 1rem; letter-spacing: 0.5px;"><i class="fa-solid fa-tags me-1"></i><%= listing.category %></span>
+      </div>
+  <div class="card-text">
+      <p class="card-text">
+        <b><%= listing.title %></b> <br/>
+        &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+        <i class="tax-info"> &nbsp; &nbsp; +18% GST</i>
+    </p>
+  </div>
+   <div class="card-text">
+     <% if (listing.likes && listing.likes.length > 0) { %>
+    <p class="card-text" style="margin: 1 0 0 0 !important; padding: 0px !important; font-size: 1rem;">
+      <i class="fa-solid fa-heart" style="color: #ff385c; font-size: 1rem;"></i>
+      <b> Liked by </b> 
+      <strong><%= listing.likes[listing.likes.length - 1].username %></strong>
+      <% if (listing.likes.length > 1) { %>
+        and <%= listing.likes.length - 1 %> others
+      <% } %>
+    </p>
+  <% } %>
+   </div>
+</div>
+</div>
+</a>
+<% } %>
+     </div>
+
+
+  
