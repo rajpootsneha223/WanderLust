@@ -116,17 +116,13 @@ module.exports.toggleLike = async (req, res) => {
       req.flash("error", "You must be logged in to like listings!");
       return res.json({ success: false, redirect: "/login" });
     }
-
     const { id } = req.params;
     const userId = req.user._id;
     let isLiked = false;
-
     const listing = await Listing.findById(id);
-
     if (!listing.likes) {
       listing.likes = [];
     }
-
     if (listing.likes.includes(userId)) {
       await Listing.findByIdAndUpdate(id, { $pull: { likes: userId } });
       isLiked = false;
@@ -134,8 +130,15 @@ module.exports.toggleLike = async (req, res) => {
       await Listing.findByIdAndUpdate(id, { $push: { likes: userId } });
       isLiked = true;
     }
-
-    return res.json({ success: true, isLiked: isLiked });
+    const updatedListing = await Listing.findById(id).populate("likes");
+    return res.json({
+      success: true,
+      isLiked: isLiked,
+      likesCount: updatedListing.likes.length,
+      lastLikedUsername: updatedListing.likes.length > 0
+        ? updatedListing.likes[updatedListing.likes.length - 1].username
+        : null,
+    });
   } catch (err) {
     return res.status(500).json({ success: false, error: err.message });
   }
