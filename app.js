@@ -18,7 +18,7 @@ const User = require("./models/user.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
-const Listing = require("../models/listing.js");
+
 
 const dbUrl = process.env.ATLASDB_URL;
 
@@ -112,10 +112,6 @@ const validateReview = (req, res, next) => {
 };
 
 
-app.get("/", async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
-});
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
