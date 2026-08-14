@@ -54,23 +54,18 @@ document.querySelectorAll(".like-btn").forEach((button) => {
   button.addEventListener("click", async function (e) {
     e.preventDefault();
     e.stopPropagation();
-
     const listingId = this.getAttribute("data-id");
     const icon = this.querySelector(".heart-icon");
-
     icon.style.transform = "scale(1.3)";
     setTimeout(() => {
       icon.style.transform = "scale(1)";
     }, 200);
-
     try {
       const response = await fetch(`/listings/${listingId}/like`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
-
       const data = await response.json();
-
       if (data.success) {
         if (data.isLiked) {
           icon.classList.remove("fa-regular");
@@ -80,6 +75,20 @@ document.querySelectorAll(".like-btn").forEach((button) => {
           icon.classList.remove("fa-solid");
           icon.classList.add("fa-regular");
           icon.style.setProperty("color", "white", "important");
+        }
+
+        // NAYA CODE — "Liked by" text ko turant update karo
+        const likedByText = document.getElementById(`liked-by-text-${listingId}`);
+        if (likedByText) {
+          if (data.likesCount > 0) {
+            let html = `<i class="fa-solid fa-heart" style="color: #ff385c; font-size: 1rem;"></i> <b>Liked by</b> <strong>${data.lastLikedUsername}</strong>`;
+            if (data.likesCount > 1) {
+              html += ` and ${data.likesCount - 1} others`;
+            }
+            likedByText.innerHTML = html;
+          } else {
+            likedByText.innerHTML = "";
+          }
         }
       } else if (data.redirect) {
         window.location.href = data.redirect;
