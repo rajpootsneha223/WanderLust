@@ -154,17 +154,17 @@
     </p>
   </div>
    <div class="card-text">
-     <% if (listing.likes && listing.likes.length > 0) { %>
-    <p class="card-text" style="margin: 1 0 0 0 !important; padding: 0px !important; font-size: 1rem;">
+  <p class="card-text" id="liked-by-text-<%= listing._id %>" style="margin: 1 0 0 0 !important; padding: 0px !important; font-size: 1rem;">
+    <% if (listing.likes && listing.likes.length > 0) { %>
       <i class="fa-solid fa-heart" style="color: #ff385c; font-size: 1rem;"></i>
-      <b> Liked by </b> 
+      <b> Liked by </b>
       <strong><%= listing.likes[listing.likes.length - 1].username %></strong>
       <% if (listing.likes.length > 1) { %>
         and <%= listing.likes.length - 1 %> others
       <% } %>
-    </p>
-  <% } %>
-   </div>
+    <% } %>
+  </p>
+</div>
 </div>
 </div>
 </a>
