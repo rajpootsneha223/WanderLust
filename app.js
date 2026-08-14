@@ -117,11 +117,11 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
-// Home Page
 
-// app.get("/", (req, res) => {
-//   res.send("Hi, I am root");
-// });
+// Home Page
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 
 // Error Message
 
