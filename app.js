@@ -110,6 +110,12 @@ const validateReview = (req, res, next) => {
   }
 };
 
+
+app.get("/", async (req, res) => {
+  const allListings = await Listing.find({});
+  res.render("listings/index.ejs", { allListings });
+});
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
